@@ -1,0 +1,79 @@
+.add-user{
+    width: max-content;
+    height: max-content;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.671);
+    backdrop-filter: blur(10px);
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 30%;
+    right: 24%;
+    left: 0;
+    margin: auto;
+    border: 1px solid #dddddd35;
+
+    form{
+        color: white;
+        display: flex;
+        gap: 20px;
+
+        input{
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #dddddd35;
+            background-color: transparent;
+            color: whitesmoke;
+            border-radius: 5px;
+        }
+
+        button{
+            padding: 0px 20px;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            background-color: #5381fe;
+            border: none;
+            height: 40px;
+            color: whitesmoke;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+    
+    .user{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 40px;
+
+
+
+        .detail{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            img{
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+        }
+
+        button{
+            padding: 0px 20px;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            background-color: #3269ffd2;
+            border: none;
+            height: 40px;
+            color: whitesmoke;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,105 @@
+:root{
+    --darkblue: rgba(0, 0, 0, 0.671);
+}
+
+
+
+.chat-list {
+    flex: 1;
+    overflow-y: scroll;
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: rgb(24, 24, 24) transparent; /* For Firefox: thumb color track color */
+    scroll-behavior: smooth;
+
+}
+
+
+
+.search {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    /* position: sticky; */
+    /* top: 0; */
+    /* background-color: var(--darkblue); */
+    /* backdrop-filter: blur(50px); */
+}
+
+.search img {
+    width: 20px;
+}
+
+.search .add {
+    background-color: var(--darkblue);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-bar {
+    /* border: 2px solid yellow; */
+    margin: 10px;
+    flex: 1;
+    display: flex;
+    background-color: var(--darkblue);
+    padding: 8px;
+    border-radius: 5px;
+    gap: 10px;
+}
+
+.search-bar input {
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    flex: 1;
+}
+
+.search-bar img {
+    width: 20px;
+}
+
+.item {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    /* justify-content: center; */
+    flex: 1;
+    border-bottom: 0.5px solid rgba(169, 169, 169, 0.329);
+    padding: 20px;
+    gap: 15px;
+    color: whitesmoke;
+    /* border: 2px solid red; */
+
+    &:hover{
+        opacity: 0.8;
+    }
+
+    img{
+        border-radius: 50%;
+        width: 50px;
+        object-fit: cover;
+    }
+
+    .text{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    span{
+        font-weight: bold;
+    }
+
+    p{
+        font-size: 14px;
+        font-weight: normal;
+    }
+    /* border: 2px solid red; */
+}

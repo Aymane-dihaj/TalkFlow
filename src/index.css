@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+:root{
+  --gray-border: #dddddd35;
+}
+
+* {
+  margin: 0;
+  /* border: 2px solid red; */
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+
+html{
+  height: 100vh;
+  width: 100vw;
+}
+
+
+body{
+  overflow: hidden;
+  background-color: #323031;
+  /* background-image: linear-gradient(to left top, #e52378, #a7245a, #6d1f3d, #381621, #000000);; */
+  /* background-image: url('./bg.jpg'); */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.app{
+  background-color: rgba(14, 14, 14, 0.575);
+  border-radius: 8px;
+  width: 80vw;
+  height: 90vh;
+  backdrop-filter: blur(10px) saturate(150%);
+  border: 0.5px solid rgba(255, 255, 255, 0.192);
+  display: flex;
+  /* box-shadow: 0px 15px 52px 15px #dddddd35; */
+}
+
+.loader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15em;
+  top: 0;
+  text-align: center;
+  color: whitesmoke;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1.6px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  align-self: center;
+  /* max-width: 15rem; */
+  /* margin-top: 3rem; */
+  /* margin-bottom: 3rem; */
+}
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  animation: pulsOut 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
+}
+.loader:before {
+  width: 100%;
+  padding-bottom: 100%;
+  box-shadow: inset 0 0 0 1rem #fff;
+  animation-name: pulsIn;
+}
+.loader:after {
+  width: calc(100% - 2rem);
+  padding-bottom: calc(100% - 2rem);
+  box-shadow: 0 0 0 0 #fff;
+}
+
+@keyframes pulsIn {
+  0% {
+    box-shadow: inset 0 0 0 1rem #fff;
+    opacity: 1;
+  }
+  50%, 100% {
+    box-shadow: inset 0 0 0 0 #fff;
+    opacity: 0;
+  }
+}
+
+@keyframes pulsOut {
+  0%, 50% {
+    box-shadow: 0 0 0 0 #fff;
+    opacity: 0;
+  }
+  100% {
+    box-shadow: 0 0 0 1rem #fff;
+    opacity: 1;
+  }
+}
+    

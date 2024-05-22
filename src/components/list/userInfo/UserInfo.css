@@ -1,0 +1,33 @@
+.user-info{
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    /* border: 2px solid green; */
+    justify-content: space-between;
+    font-size: 13px;
+    color: white;
+
+    .user{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+
+    .icons{
+        display: flex;
+        gap: 20px;
+    }
+    
+    img{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+    }
+}

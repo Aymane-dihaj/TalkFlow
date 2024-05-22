@@ -1,0 +1,188 @@
+.chat{
+    flex: 2;
+    /* border: 2px solid red; */
+    border-right: 1px solid #dddddd35;    
+    border-left: 1px solid #dddddd35;    
+    height: 100%;
+    display: flex;
+    flex-direction: column;    
+    .top{
+        display: flex;
+        padding: 20px;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #dddddd35;    
+        
+        .user{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            img{
+                width: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+
+        .text{
+            display: flex;
+            color: white;
+            flex-direction: column;
+            
+            span{
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            p{
+                font-size: 15px;
+                font-weight: normal;
+                color: #a5a5a5;
+            }
+        }
+
+        .icons{
+            display: flex;
+            gap: 20px;
+
+
+            img{
+                width: 20px;
+            }
+        }
+    }
+
+    .main{
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+        scrollbar-width: thin; /* For Firefox */
+        scrollbar-color: rgb(24, 24, 24) transparent; /* For Firefox: thumb color track color */
+        scroll-behavior: smooth;
+        gap: 30px;
+
+        .message{
+            max-width: 70%;
+            display: flex;
+            gap: 20px;
+            font-size: 15px;
+            color: whitesmoke;
+
+            &.own{
+                align-self: flex-end;
+                
+                .texts p{
+                    background-image: linear-gradient(
+                                                    135deg,
+                                                    hsl(209deg 87% 20%) 0%,
+                                                    hsl(204deg 100% 24%) 25%,
+                                                    hsl(201deg 100% 28%) 44%,
+                                                    hsl(196deg 100% 30%) 58%,
+                                                    hsl(190deg 100% 31%) 69%,
+                                                    hsl(181deg 100% 30%) 78%,
+                                                    hsl(170deg 100% 33%) 85%,
+                                                    hsl(159deg 100% 37%) 91%,
+                                                    hsl(140deg 63% 49%) 96%,
+                                                    hsl(66, 66%, 56%) 99%,
+                                                    hsl(54, 78%, 52%) 101%,
+                                                    hsl(55deg 100% 50%) 101%
+                                                    );
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;                
+                }
+            }
+
+            img{
+                object-fit: cover;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+
+            .texts{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                img{
+                    width: 100%;
+                    height: 300px;
+                    border-radius: 8px;
+                    object-fit: cover;
+                }
+
+                p{
+                    border-radius: 8px;
+                    padding: 10px;
+                    background-color: rgba(9, 9, 27, 0.356);
+                }
+
+                span{
+                    font-size: 12px;
+                }
+            }
+        
+        }
+    }
+    
+    
+    .bottom{
+        display: flex;
+        padding: 20px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: auto;
+        border-top: 1px solid #dddddd35;
+        
+        .icons{
+            display: flex;
+            gap: 20px
+        }
+
+        img{
+            width: 20px;
+            cursor: pointer;
+        }
+    }
+
+    input{
+        flex: 1;
+        background-color: var(--darkblue);
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 15px;
+    }
+
+    .emojis{
+        position: relative;
+    
+        .emoji-container{
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+        }
+    }
+
+    .send-btn{
+        background-color: #5381f1;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        cursor: pointer;
+        text-align: center;
+    }
+}
