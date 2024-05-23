@@ -1,13 +1,18 @@
 import React from 'react'
 import "./Details.css"
 import { auth } from '../../lib/firebase'
+import { useUserStore } from '../../lib/userStore'
+import { useChatStore } from '../../lib/chatStore'
 
 function Details() {
+  const {otherUser} = useChatStore()
+  
+  
   return (
     <section className='detail'>
       <div className="user">
         <img src="./avatar.png" alt="" />
-        <h2>Aymane Dihaj</h2>
+        <h2>{otherUser.username}</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </div>
       <div className="info">

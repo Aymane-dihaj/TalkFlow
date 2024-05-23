@@ -119,11 +119,11 @@ function Login() {
 			<form onSubmit={handleLogin}>
 				<div className="inputContainer">
 					<p>Email</p>
-					<input type="text" name="email" placeholder="Email" />
+					<input required type="text" name="email" placeholder="Email" />
 				</div>
 				<div className="inputContainer">
 					<p>Password</p>
-					<input type="password" name="password" placeholder='Password' />
+					<input required type="password" name="password" placeholder='Password' />
 				</div>
 				<button disabled={waitLogin}>{waitLogin ? "Loading..." : "Login"}</button>
 			</form>

@@ -71,7 +71,6 @@ function AddUser() {
         }),
       })
       
-      // console.log(newChatRef.id)
       
     } catch (error) {
         console.log(error);

@@ -13,7 +13,7 @@ import { useChatStore } from './lib/chatStore';
 const App = () => {
 
   const {currentUser, isLoading, fetchUserInfo} = useUserStore()
-  const { chatId } = useChatStore()
+  const { chatId } = useChatStore();
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -29,10 +29,10 @@ const App = () => {
   if (isLoading){
     return <div className="loader"></div>
   }
-  console.log("CurrentUser: =========")
-  console.log(currentUser)
 
-  // auth.signOut()
+
+  //------
+  auth.signOut()
   return (
     <div className='app'>
       {

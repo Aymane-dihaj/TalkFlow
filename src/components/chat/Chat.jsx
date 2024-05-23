@@ -29,46 +29,38 @@ function Chat() {
 
 
   const endRef = useRef(null);
-
+  
+  
   useEffect(() => {
-      endRef.current?.scrollIntoView({behavior: "smooth"})
-  }, [])
-
-
-
-
-    useEffect(() => {
-
-      const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
-        console.log("useEffect: chat updated")
-        console.log(chatId)
-        setChat(res.data())
-        console.log(chat)
-      })
-
-
-      return () => {unSub()}
-    }, [chatId]) 
-
-
-
-
-    const handleSend = async () => {
-
-      console.log("Send button clicked")
-
+    
+    const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
+      console.log("useEffect: chat updated")
+      setChat(res.data())
+    })
+    
+    
+    return () => {unSub()}
+  }, [chatId]) 
+  
+  
+  
+  
+  const handleSend = async () => {
+    
+    console.log("Send button clicked")
+    
     if (TextMessage == "")
-        return;
-      
-      let imgUrl = null;
-      
+      return;
+    
+    let imgUrl = null;
+    
       try {
         
         //CREATE AN IMG URL IF THE USER SENDS AN IMAGE
         if (img.url){
           imgUrl = await upload(img.file);
         }
-
+        
         //UPDATE THE 'chats' DOCUMENT FOR THE 
         await updateDoc(doc(db, "chats", chatId), {
           messages:arrayUnion({
@@ -79,40 +71,47 @@ function Chat() {
           })
         })
         
-        console.log("----------")
-        console.log(chatId)
+        setTextMessage('')
         
         //CREATE A REF OF 'userchats' DOCUMENT OF THE CURRENT USER ID
         const userChatRef = doc(db, "userchats", currentUser.id);
         
         //GET THE DOCUMENT FROM THE FIRESTORE
         const userChatSnap = await getDoc(userChatRef);
-
+        
         
         if (userChatSnap.exists()){
-
+          
           const userChatData = userChatSnap.data();
-
-        //   const currentChatIndex = userChatData.chats.findIndex(chat => chat.chatId === chatId);
-        //   userChatData[currentChatIndex].lastMessage = TextMessage
-        //   userChatData[currentChatIndex].isSeen = true;
-        //   userChatData[currentChatIndex].updatedAt = Date.now();
-
+          
+            const currentChatIndex = userChatData.chats.findIndex(chat => chat.chatId === chatId);
+            userChatData[currentChatIndex].lastMessage = TextMessage
+            userChatData[currentChatIndex].isSeen = true;
+            userChatData[currentChatIndex].updatedAt = Date.now();
+          
           //UPADATE THE 'userchats' DOC OF THE 
           await updateDoc(userChatRef, {
             chats: userChatData.chats,
           })
-
+          
         }
-
+        
       }catch (error) {
         console.log(error)
       }
+      
+      
     }
 
-
+    
+      useEffect(() => {
+          endRef.current?.scrollIntoView({behavior: "smooth"})
+      }, [handleSend])
+    
+    
+    
     return (
-    <section className='chat'>
+      <section className='chat'>
       <div className="top">
         <div className="user">
           <img src="./avatar.png" alt="" />
@@ -128,23 +127,28 @@ function Chat() {
         </div>
       </div>
       <div className="main">
-        <div className="message" >
-            <div className="texts">
-              {/* {message.img && <img src={message.img} alt="" />} */}
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime explicabo dolor vero illum iste sapiente sunt quas quidem eum, odio doloribus </p>
-              <span>1 min ago</span>
-            </div>
-        </div>
-        {chat?.messages?.map((message => {
-            <div className="message own" key={message?.createdAt}>
+        {chat?.messages?.map((message) => (
+          <div
+            key={message?.createAt}
+
+            className={
+              message.senderId === currentUser?.id ? "message own" : "message"
+            }
+          >
             <div className="texts">
               {message.img && <img src={message.img} alt="" />}
-              <p>{message.text}</p>
-              <span>1 min ago</span>
+              <p>{message.TextMessage}</p>
+              {/* <span>{format(message.createdAt.toDate())}</span> */}
             </div>
+          </div>
+        ))}
+        {img.url && (
+          <div className="message own">
+            <div className="texts">
+              <img src={img.url} alt="" />
             </div>
-          }))
-        }
+          </div>
+        )}
         <div ref={endRef}></div>
       </div>
       <div className="bottom">

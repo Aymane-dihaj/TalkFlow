@@ -4,7 +4,7 @@ import AddUser from "./addUser/AddUser"
 import { useUserStore } from '../../../lib/userStore';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
-import { getDatabase } from 'firebase/database';
+import { getDatabase, update } from 'firebase/database';
 import { useChatStore } from '../../../lib/chatStore';
 
 function ChatList() {
@@ -24,8 +24,6 @@ function ChatList() {
 
       //GET THE userchats.chats OF THE CURRENT USER
       const item = res.data().chats;
-      console.log("iteeeeems")
-      console.log(item)
 
       //MAKE PROMISES FOR ALL THE USERS THE THE CURRENT CLIENT HAVE IN HIS userchats
       const promises = item.map(async (item) => {
@@ -54,8 +52,28 @@ function ChatList() {
   const handleSelectedChat = async (chat) => {
 
     //!we are herer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const userChats = 
+    const userChats = chats.map((item) => {
+      const {user, ...rest} = item
 
+      return rest
+    })
+
+    const chatIndex = userChats.findIndex(item=>item.chatId == chat.chatId)
+
+    userChats[chatIndex].isSeen = true
+
+    const userChatsRef = doc(db, "userchats", currentUser.id)
+
+    try {
+      
+      await update(userChatsRef, {
+        chats: userChats
+      })
+
+    }
+    catch (error) {
+      console.log(error)
+    }
     changeChat(chat.chatId, chat.otherUserInfos) 
   }
 
