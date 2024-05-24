@@ -6,6 +6,7 @@ import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { getDatabase, update } from 'firebase/database';
 import { useChatStore } from '../../../lib/chatStore';
+import { motion } from 'framer-motion';
 
 function ChatList() {
 
@@ -94,7 +95,11 @@ function ChatList() {
         <img src={!addMode ?  "./plus.png" : "./minus.png"} onClick={() => {setAddMode(!addMode)}} className='add' alt="Add Icon"/>
       </div>
       {chats.map((chat) => (
-          <div style={{
+          <motion.div
+            initial={{opacity: 0, translateY: 200}}
+            animate={{opacity: 1, translateY: 0}}
+            transition={{type: 'just'}}
+          style={{
             backgroundColor: chat.isSeen ? "transparent" : "#0194E9"
             // background: "linear-gradient(90deg, #0194E9, #0368D8)"
 
@@ -104,7 +109,7 @@ function ChatList() {
             <span>{chat.otherUserInfos.username}</span>
             <p>{chat.lastMessage}</p>
           </div>
-        </div>
+        </motion.div>
       ))
       }
       {addMode && <AddUser/>}

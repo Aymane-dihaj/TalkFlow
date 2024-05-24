@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { auth, db } from '../../lib/firebase'
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore'
 import upload from '../../lib/upload'
+import { motion } from 'framer-motion'
 
 
 function Login() {
@@ -114,7 +115,11 @@ function Login() {
 
   return (
 	<div className='login'>
-		<div className='login-container'>
+		<motion.div className='login-container'
+					initial={{ opacity: 0, translateX: -150}}
+					animate={{ opacity: 1, translateX: 0}}
+					transition={{type: 'spring', duration: 1}}
+		>
 			<h2>Welcome Back!</h2>
 			<form onSubmit={handleLogin}>
 				<div className="inputContainer">
@@ -127,9 +132,17 @@ function Login() {
 				</div>
 				<button disabled={waitLogin}>{waitLogin ? "Loading..." : "Login"}</button>
 			</form>
-		</div>
-		<div className="separator"></div>
-		<div className='login-container'>
+		</motion.div>
+		<motion.div className="separator"
+							initial={{ opacity: 0, translateY: -350}}
+							animate={{ opacity: 1, translateY: 0}}
+							transition={{type: 'spring', duration: 1}}
+			></motion.div>
+		<motion.div className='login-container'
+						initial={{ opacity: 0, translateX: 150}}
+						animate={{ opacity: 1, translateX: 0}}
+						transition={{type: 'spring', duration: 1}}
+			>
 			<h2>Sign Up</h2>
 			<form onSubmit={handleRegister}>
 				<label htmlFor="file" >
@@ -151,7 +164,7 @@ function Login() {
 				</div>
 				<button disabled={waitRegister}>{waitRegister ? "..." : "Sign Up"}</button>
 			</form>
-		</div>
+		</motion.div>
 	</div>
   )
 }

@@ -8,6 +8,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './lib/firebase';
 import { useUserStore } from './lib/userStore';
 import { useChatStore } from './lib/chatStore';
+import { motion } from 'framer-motion';
 
 
 const App = () => {
@@ -35,7 +36,7 @@ const App = () => {
   // auth.signOut()
   //------
   return (
-    <div className='app'>
+    <motion.div className='app' initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4}}>
       {
         currentUser ? (
           <>
@@ -46,7 +47,7 @@ const App = () => {
           ) : (<Login/>)
       }
       <Notification/>
-    </div>
+    </motion.div>
   )
 }
 

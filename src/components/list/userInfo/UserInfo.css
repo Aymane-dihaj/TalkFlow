@@ -18,6 +18,19 @@
             border-radius: 50%;
             object-fit: cover;
         }
+        
+        button{
+            padding: 1px 15px;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            background-color: #c1121f;
+            font-weight: 400;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+    
     }
 
     .icons{
@@ -29,5 +42,22 @@
         cursor: pointer;
         width: 20px;
         height: 20px;
+    }
+
+    .more-container{
+        position: absolute;
+        right: 75%;
+        background-color: rgba(185, 11, 11, 0.842);
+        border-radius: 5px;
+        /* width: 100px; */
+        /* height: max-content; */
+        padding: 10px;
+    
+        button{
+            position: relative;
+            background-color: transparent;
+            border: none;
+            color: white;
+        }
     }
 }
