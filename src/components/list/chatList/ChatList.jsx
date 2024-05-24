@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./ChatList.css"
 import AddUser from "./addUser/AddUser"
 import { useUserStore } from '../../../lib/userStore';
-import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { getDatabase, update } from 'firebase/database';
 import { useChatStore } from '../../../lib/chatStore';
@@ -49,9 +49,11 @@ function ChatList() {
   }, [currentUser.id])
 
 
+
+
   const handleSelectedChat = async (chat) => {
 
-    //!we are herer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //
     const userChats = chats.map((item) => {
       const {user, ...rest} = item
 
@@ -66,16 +68,21 @@ function ChatList() {
 
     try {
       
-      await update(userChatsRef, {
-        chats: userChats
+      await updateDoc(userChatsRef, {
+        chats: userChats,
       })
 
+      changeChat(chat.chatId, chat.otherUserInfos) 
+
+    } catch (err) {
+        console.log(err)      
     }
-    catch (error) {
-      console.log(error)
-    }
-    changeChat(chat.chatId, chat.otherUserInfos) 
+
+
   }
+
+
+
 
   return (
     <section className='chat-list'>
@@ -87,7 +94,11 @@ function ChatList() {
         <img src={!addMode ?  "./plus.png" : "./minus.png"} onClick={() => {setAddMode(!addMode)}} className='add' alt="Add Icon"/>
       </div>
       {chats.map((chat) => (
-          <div className="item" key={chat.chatId} onClick={() => handleSelectedChat(chat)}>
+          <div style={{
+            backgroundColor: chat.isSeen ? "transparent" : "#0194E9"
+            // background: "linear-gradient(90deg, #0194E9, #0368D8)"
+
+          }} className="item" key={chat.chatId} onClick={() => handleSelectedChat(chat)}>
           <img src={chat.otherUserInfos.avatar || "./avatar.png"} alt="Avatar" />
           <div className="text">
             <span>{chat.otherUserInfos.username}</span>

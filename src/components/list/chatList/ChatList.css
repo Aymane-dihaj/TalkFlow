@@ -70,12 +70,14 @@
     cursor: pointer;
     align-items: center;
     /* justify-content: center; */
-    flex: 1;
+    flex: 0.5;
     border-bottom: 0.5px solid rgba(169, 169, 169, 0.329);
-    padding: 20px;
+    padding: 10px;
     gap: 15px;
     color: whitesmoke;
     /* border: 2px solid red; */
+    margin: 10px;
+    border-radius: 10px;
 
     &:hover{
         opacity: 0.8;

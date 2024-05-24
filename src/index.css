@@ -22,9 +22,14 @@ html{
 
 body{
   overflow: hidden;
-  background-color: #454545;
-  /* background-image: linear-gradient(to left top, #e52378, #a7245a, #6d1f3d, #381621, #000000);; */
-  /* background-image: url('./bg.jpg'); */
+  /* background-color: #E96C01; */
+  /*
+* Created with https://www.css-gradient.com
+* Gradient link: https://www.css-gradient.com/?c1=e96c01&c2=0b62c3&gt=l&gd=dtl
+*/
+/* background: #E96C01;
+background: linear-gradient(135deg, #E96C01, #0B62C3); */
+background-image: url('./uxie.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -36,7 +41,7 @@ body{
 }
 
 .app{
-  background-color: rgba(14, 14, 14, 0.575);
+  background-color: rgba(14, 14, 14, 0.877);
   border-radius: 8px;
   width: 80vw;
   height: 90vh;

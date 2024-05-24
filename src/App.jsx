@@ -32,7 +32,8 @@ const App = () => {
 
 
   //------
-  auth.signOut()
+  // auth.signOut()
+  //------
   return (
     <div className='app'>
       {

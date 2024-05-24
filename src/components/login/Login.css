@@ -82,18 +82,15 @@
             border-radius: 3px;
             font-weight: normal;
             letter-spacing: 1.6px;
-            background-color: #FB2576;
+            /* background-color: #e85d04; */
+            background: #E96C01;
+            background: linear-gradient(90deg, #e96d01, #c3330b);
             color: black;
             border: none;
             transition: all 0.1s ease-in-out;
             cursor: pointer;
             font-weight: 500;
-            
-            &:hover{
-                background-color: transparent;
-                outline: 1px solid whitesmoke;
-                color: whitesmoke;
-            }
+            /* opacity: 0.9; */
 
             &:disabled{
                 cursor: not-allowed;

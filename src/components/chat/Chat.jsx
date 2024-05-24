@@ -73,28 +73,33 @@ function Chat() {
         
         setTextMessage('')
         
-        //CREATE A REF OF 'userchats' DOCUMENT OF THE CURRENT USER ID
-        const userChatRef = doc(db, "userchats", currentUser.id);
-        
-        //GET THE DOCUMENT FROM THE FIRESTORE
-        const userChatSnap = await getDoc(userChatRef);
-        
-        
-        if (userChatSnap.exists()){
+        //LOOP THROUGH THE USERS AND UPDATE EACH 'userchats' 
+        const usersIDs = [currentUser.id, otherUser.id].forEach( async (id) => {
           
-          const userChatData = userChatSnap.data();
+          //CREATE A REF OF 'userchats' DOCUMENT OF THE USER
+          const userChatRef = doc(db, "userchats", id);
           
+          //GET THE USERCHATS DOCUMENT FROM THE FIRESTORE
+          const userChatSnap = await getDoc(userChatRef);
+          
+          
+          if (userChatSnap.exists()){
+            
+            const userChatData = userChatSnap.data();
+
+            //FIND THE INDEX OF THE USERCHAT
             const currentChatIndex = userChatData.chats.findIndex(chat => chat.chatId === chatId);
-            userChatData[currentChatIndex].lastMessage = TextMessage
-            userChatData[currentChatIndex].isSeen = true;
-            userChatData[currentChatIndex].updatedAt = Date.now();
-          
-          //UPADATE THE 'userchats' DOC OF THE 
-          await updateDoc(userChatRef, {
-            chats: userChatData.chats,
-          })
-          
-        }
+            userChatData.chats[currentChatIndex].lastMessage = id === currentUser.id ? `You: ${TextMessage}` : TextMessage
+            userChatData.chats[currentChatIndex].isSeen = id === currentUser.id ? true : false;
+            userChatData.chats[currentChatIndex].updatedAt = Date.now();
+            
+            //UPADATE THE 'userchats' DOC 
+            await updateDoc(userChatRef, {
+              chats: userChatData.chats,
+            })
+            
+          }
+        })
         
       }catch (error) {
         console.log(error)
@@ -108,16 +113,23 @@ function Chat() {
           endRef.current?.scrollIntoView({behavior: "smooth"})
       }, [handleSend])
     
+
+      const handleKeyPress = (key) => {
+          if (key.code === "Enter")
+            {
+              handleSend()
+            }
+      }
     
     
     return (
       <section className='chat'>
       <div className="top">
         <div className="user">
-          <img src="./avatar.png" alt="" />
+          <img src={otherUser.avatar || "./avatar.png"} alt="" />
           <div className="text">
             <span>{otherUser?.username}</span>
-            <p>aliquid rerum  Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p> 
+            {/* <p>aliquid rerum  Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>  */}
           </div>
         </div>
         <div className="icons">
@@ -155,14 +167,17 @@ function Chat() {
         <div className="icons">
           <img src="./img.png" alt="" /><img src="./camera.png" alt="" /><img src="mic.png" alt="" />
         </div>
-        <input value={TextMessage} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder='Type a message...'/>
-        <div className="emojis">
-          <img src="./emoji.png" alt="" onClick={() => {setOpenEmojis(!openEmojis)}}/>
-          <div className="emoji-container">
-            <EmojiPicker open={openEmojis} onEmojiClick={handelEmoji} theme='dark' searchPlaceHolder='' width={300} height={420}/>
+        <div className="input-container">
+          
+          <input value={TextMessage} onKeyPress={handleKeyPress} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder='Type a message...'/>
+          <div className="emojis">
+            <img src="./emoji.png" alt="" onClick={() => {setOpenEmojis(!openEmojis)}}/>
+            <div className="emoji-container">
+              <EmojiPicker open={openEmojis} onEmojiClick={handelEmoji} theme='dark' searchPlaceHolder='' width={300} height={420}/>
+            </div>
           </div>
         </div>
-        <button className='send-btn' onClick={handleSend}>Send</button>
+          <button className='send-btn' onClick={handleSend}>Send</button>
       </div>
       
     </section>
