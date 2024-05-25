@@ -7,9 +7,10 @@ import { useUserStore } from '../../../../lib/userStore';
 import { connectStorageEmulator } from 'firebase/storage';
 
 function AddUser() {
-
+  
   const [user, setUser] = useState(null);
   const {currentUser} = useUserStore();
+  const [dup, setDup] = useState(false);
 
   const Adduser = async (e) => {
 
@@ -20,15 +21,33 @@ function AddUser() {
     try {
 
       //Get the users collection reference from the database
-      const userRef = collection(db, "users");
+      const usersRef = collection(db, "users");
 
       //Get a query of the username
-      const q = query(userRef, where("username", "==", username));
+      const q = query(usersRef, where("username", "==", username));
 
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty){
-        setUser(querySnapshot.docs[0].data());
+
+      const chatRef = collection(db, "chats");
+      const userChatsRef = collection(db, "userchats");
+      
+      const currentUserChats = doc(userChatsRef, currentUser.id);
+      const currentUserChatsData = await getDoc(currentUserChats);
+      
+      const data = currentUserChatsData.data()
+          
+        // console.log(data)
+
+      setUser(querySnapshot.docs[0].data());
+      data.chats.forEach((chat) => {
+        if (user.id === chat.receiverId){
+            console.log('there is a dup user');
+            setDup(true);
+            // return ;
+          }
+      })
       }
       
     } catch (error) {
@@ -40,11 +59,32 @@ function AddUser() {
 
   const handleAdd = async () => {
 
+
     
     const chatRef = collection(db, "chats");
     const userChatsRef = collection(db, "userchats");
     
     try {
+      
+      // const currentUserChats = doc(userChatsRef, currentUser.id);
+      // const currentUserChatsData = await getDoc(currentUserChats);
+      
+      // const data = currentUserChatsData.data()
+      
+      // console.log(data)
+
+      // data.chats.forEach((chat) => {
+      //   if (user.id === chat.receiverId){
+      //       console.log('there is a dup user');
+      //       setDup(true);
+      //       return ;
+      //     }
+      // })
+
+
+      // if(dup)
+      //     return ;
+
       
       const newChatRef = doc(chatRef)
       
@@ -61,6 +101,8 @@ function AddUser() {
           updatedAt: Date.now(),
         })
       })
+
+
       
       await updateDoc(doc(userChatsRef, currentUser.id), {
         chats: arrayUnion({
@@ -89,7 +131,9 @@ function AddUser() {
           <img src={user.avatar || "./avatar.png"} alt="" />
           <span>{user.username}</span>
         </div>
-        <button onClick={handleAdd}>Add User</button>
+        <button onClick={handleAdd} style={{
+          backgroundColor: dup ? 'red' : 'blue'
+        }}>Add User</button>
       </div>}
     </div>
   )

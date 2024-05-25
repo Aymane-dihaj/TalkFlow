@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import "./UserInfo.css"
 import { useUserStore } from '../../../lib/userStore'
 import { auth } from '../../../lib/firebase';
+import { motion } from 'framer-motion';
 
 
 
@@ -21,9 +22,16 @@ function UserInfo() {
         <img src="./edit.png" alt="Edit" />
       </div>
       { more && 
-        <div className="more-container">
+        <motion.div className="more-container"
+
+        initial={{ opacity: 0, scale: 0.75 , translateX: 50}}
+        animate={{ opacity: 1, scale: 1 , translateX: 0}}
+        transition={{ease: 'easeInOut'}}
+        // exit={{ opacity: 0, scale: 0 , translateX: 50}}
+        
+        >
           <button onClick={() => {auth.signOut()}}>Logout</button>
-        </div>
+        </motion.div>
       }
     </section>
   )

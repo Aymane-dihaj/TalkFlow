@@ -54,7 +54,6 @@ function ChatList() {
 
   const handleSelectedChat = async (chat) => {
 
-    //
     const userChats = chats.map((item) => {
       const {user, ...rest} = item
 

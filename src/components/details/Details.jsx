@@ -3,6 +3,7 @@ import "./Details.css"
 import { auth } from '../../lib/firebase'
 import { useUserStore } from '../../lib/userStore'
 import { useChatStore } from '../../lib/chatStore'
+import { motion } from 'framer-motion'
 
 function Details() {
   const {otherUser} = useChatStore()
@@ -10,12 +11,18 @@ function Details() {
   const [photosOption, setPhotosOption] = useState(false);
   
   return (
-    <section className='detail'>
+    <motion.div className='detail'
+    
+    initial={{ opacity: 0, translateX: 100}}
+    animate={{ opacity: 1, translateX: 0}}
+    
+
+    >
       <div className="user">
         <img src={otherUser.avatar || "./avatar.png"} alt="" />
         <h2>{otherUser.username}</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        </div>
+      </div>
       <div className="info">
         <div className="option">
           <div className="title">
@@ -69,7 +76,7 @@ function Details() {
         <button>Block {otherUser.username}</button>
         {/* <button className='logout' onClick={() => {auth.signOut()}}>Logout</button> */}
       </div>
-    </section>
+    </motion.div>
   )
 }
 

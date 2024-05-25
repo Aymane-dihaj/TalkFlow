@@ -46,7 +46,7 @@
 
     .more-container{
         position: absolute;
-        right: 75%;
+        right: 81%;
         background-color: rgba(185, 11, 11, 0.842);
         border-radius: 5px;
         /* width: 100px; */
@@ -54,6 +54,7 @@
         padding: 10px;
     
         button{
+            cursor: pointer;
             position: relative;
             background-color: transparent;
             border: none;

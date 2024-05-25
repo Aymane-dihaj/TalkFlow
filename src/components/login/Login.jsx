@@ -102,6 +102,9 @@ function Login() {
 				chats: [],
 			});
 
+			username = "";
+			email = "";
+			password = "";
 			setWaitRegister(false);
 			toast.success("Account Created Successfully You Can Login Now");
 
