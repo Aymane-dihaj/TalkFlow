@@ -94,7 +94,7 @@
             }
         }
         button{
-            margin-top: 30px;
+            /* margin-top: 20px; */
             display: flex;
             padding: 10px 20px;
             color: white;
@@ -108,14 +108,12 @@
             transition: background-color 0.2s ease-in-out;
 
             &:hover{
-                background-color: rgba(209, 41, 41, 0.795);
+                background-color: rgba(209, 41, 41, 0.945);
             }
 
             &.logout{
                 padding: 10px;
                 background-color: #1a73e8;
-                border: none;
-                /* margin-top: 10px; */
             }
         }
     }

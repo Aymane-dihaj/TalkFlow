@@ -20,6 +20,7 @@
 
             img{
                 width: 50px;
+                height: 50px;
                 border-radius: 50%;
                 object-fit: cover;
             }
@@ -63,7 +64,7 @@
         scrollbar-width: thin; /* For Firefox */
         scrollbar-color: rgb(24, 24, 24) transparent; /* For Firefox: thumb color track color */
         scroll-behavior: smooth;
-        gap: 30px;
+        gap: 10px;
         width: 100%;
         
         .message{
@@ -201,5 +202,11 @@
         width: 70px;
         cursor: pointer;
         text-align: center;
+
+        &:disabled{
+            background-color: rgba(209, 41, 41, 0.767);
+            cursor: not-allowed;
+            
+        }
     }
 }

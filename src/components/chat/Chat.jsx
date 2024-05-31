@@ -7,18 +7,33 @@ import { useChatStore } from '../../lib/chatStore';
 import { useUserStore } from '../../lib/userStore';
 import upload from '../../lib/upload'
 import { connectStorageEmulator } from 'firebase/storage';
+import { motion } from 'framer-motion';
 
 function Chat() {
 
   const [openEmojis, setOpenEmojis] = useState(false);
   const [TextMessage, setTextMessage] = useState('');
   const [chat, setChat] = useState();
-  const {chatId, otherUser} = useChatStore();
+  const {chatId, otherUser, isCurrentUserBlocked, isOtherUserBlocked} = useChatStore();
   const { currentUser } = useUserStore()
   const [img, setImg] = useState({
     file: null,
     url: "",
   })
+  const [imgLoading, setImgLoading] = useState(false);
+
+
+
+	const handleImg = (e) => {
+		if (e.target.files[0]){
+			setImg({
+				file: e.target.files[0],
+				url: URL.createObjectURL(e.target.files[0])
+			})
+		}
+	}
+
+
 
 
   const handelEmoji = (e) =>{
@@ -49,7 +64,7 @@ function Chat() {
     
     console.log("Send button clicked")
     
-    if (TextMessage == "")
+    if (TextMessage == "" && !img.url)
       return;
     
     let imgUrl = null;
@@ -58,10 +73,13 @@ function Chat() {
         
         //CREATE AN IMG URL IF THE USER SENDS AN IMAGE
         if (img.url){
+          setImgLoading(true);
           imgUrl = await upload(img.file);
+          setImgLoading(false);
         }
         
-        //UPDATE THE 'chats' DOCUMENT FOR THE 
+        
+        //ADD A NEW MESSAGE IN THE CHATS DATABASE
         await updateDoc(doc(db, "chats", chatId), {
           messages:arrayUnion({
             senderId: currentUser.id,
@@ -72,6 +90,10 @@ function Chat() {
         })
         
         setTextMessage('')
+        setImg({
+          file: null,
+          url: ""
+        })
         
         //LOOP THROUGH THE USERS AND UPDATE EACH 'userchats' 
         const usersIDs = [currentUser.id, otherUser.id].forEach( async (id) => {
@@ -89,7 +111,10 @@ function Chat() {
 
             //FIND THE INDEX OF THE USERCHAT
             const currentChatIndex = userChatData.chats.findIndex(chat => chat.chatId === chatId);
-            userChatData.chats[currentChatIndex].lastMessage = id === currentUser.id ? `You: ${TextMessage}` : TextMessage
+            if (!TextMessage)
+              userChatData.chats[currentChatIndex].lastMessage = id === currentUser.id ? `You: Photo` : 'Photo';
+            else 
+              userChatData.chats[currentChatIndex].lastMessage = id === currentUser.id ? `You: ${TextMessage}` : TextMessage; 
             userChatData.chats[currentChatIndex].isSeen = id === currentUser.id ? true : false;
             userChatData.chats[currentChatIndex].updatedAt = Date.now();
             
@@ -105,6 +130,7 @@ function Chat() {
         console.log(error)
       }
       
+     
       
     }
 
@@ -116,9 +142,7 @@ function Chat() {
 
       const handleKeyPress = (key) => {
           if (key.code === "Enter")
-            {
-              handleSend()
-            }
+            handleSend()
       }
     
     
@@ -126,50 +150,56 @@ function Chat() {
       <section className='chat'>
       <div className="top">
         <div className="user">
-          <img src={otherUser.avatar || "./avatar.png"} alt="" />
+          <img src={!isCurrentUserBlocked ? otherUser?.avatar : "./avatar.png"} alt="" />
           <div className="text">
-            <span>{otherUser?.username}</span>
-            {/* <p>aliquid rerum  Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>  */}
+            <span>{isCurrentUserBlocked ? 'User' : otherUser?.username}</span>
           </div>
         </div>
         <div className="icons">
-          <img src="./phone.png" alt="" />
-          <img src="./video.png" alt="" />
           <img src="./info.png" alt="" />
         </div>
       </div>
       <div className="main">
-        {chat?.messages?.map((message) => (
-          <div
+        {chat?.messages?.map((message) => ( 
+          
+            <motion.div
+          className={
+            message.senderId === currentUser?.id ? "message own" : "message"
+          }
+
+          initial={{translateX: message.senderId === currentUser.id ?  100 : -100}}
+          animate={{translateX: 0}}
+          
+
             key={message?.createAt}
 
-            className={
-              message.senderId === currentUser?.id ? "message own" : "message"
-            }
           >
-            <div className="texts">
+            <div className="texts" >
               {message.img && <img src={message.img} alt="" />}
-              <p>{message.TextMessage}</p>
-              {/* <span>{format(message.createdAt.toDate())}</span> */}
+              <p style={{display: message.TextMessage ? 'flex' : 'none'}}>{message.TextMessage}</p>
+              {/* <span>{message.createdAt}</span> */}
             </div>
-          </div>
+          </motion.div>
         ))}
-        {img.url && (
-          <div className="message own">
+        { img.url &&
+          <div className='message own' style={{opacity: 0.5}}>
             <div className="texts">
-              <img src={img.url} alt="" />
+              <img src={imgLoading ? './loading1.svg' : img.url} alt="" />
             </div>
           </div>
-        )}
+        }
         <div ref={endRef}></div>
       </div>
       <div className="bottom">
         <div className="icons">
-          <img src="./img.png" alt="" /><img src="./camera.png" alt="" /><img src="mic.png" alt="" />
+          <label htmlFor="file">
+            <img src="./img.png" alt="" />
+          </label>
+            <input onChange={handleImg} type="file" style={{display: 'none'}} name="file" id="file" />
         </div>
         <div className="input-container">
           
-          <input value={TextMessage} onKeyPress={handleKeyPress} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder='Type a message...'/>
+          <input disabled={isCurrentUserBlocked} style={{cursor: isCurrentUserBlocked || isOtherUserBlocked ? 'not-allowed' : 'pointer'}} value={TextMessage} onKeyPress={handleKeyPress} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder={isCurrentUserBlocked || isOtherUserBlocked ? 'You Cannot Send Any Message' : 'Type a Message'}/>
           <div className="emojis">
             <img src="./emoji.png" alt="" onClick={() => {setOpenEmojis(!openEmojis)}}/>
             <div className="emoji-container">
@@ -177,7 +207,9 @@ function Chat() {
             </div>
           </div>
         </div>
-          <button className='send-btn' onClick={handleSend}>Send</button>
+          <button disabled={isCurrentUserBlocked || isOtherUserBlocked} className='send-btn' onClick={handleSend}>
+            Send
+          </button>
       </div>
       
     </section>

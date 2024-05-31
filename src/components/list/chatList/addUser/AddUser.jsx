@@ -10,7 +10,7 @@ function AddUser() {
   
   const [user, setUser] = useState(null);
   const {currentUser} = useUserStore();
-  const [dup, setDup] = useState(false);
+  const [duplicate, setDuplicate] = useState(false);
 
   const Adduser = async (e) => {
 
@@ -30,25 +30,19 @@ function AddUser() {
 
       if (!querySnapshot.empty){
 
-      const chatRef = collection(db, "chats");
-      const userChatsRef = collection(db, "userchats");
+      // const chatRef = collection(db, "chats");
+      // const userChatsRef = collection(db, "userchats");
       
-      const currentUserChats = doc(userChatsRef, currentUser.id);
-      const currentUserChatsData = await getDoc(currentUserChats);
+      // const currentUserChats = doc(userChatsRef, currentUser.id);
+      // const currentUserChatsData = await getDoc(currentUserChats);
       
-      const data = currentUserChatsData.data()
+      // const data = currentUserChatsData.data()
           
         // console.log(data)
 
       setUser(querySnapshot.docs[0].data());
-      data.chats.forEach((chat) => {
-        if (user.id === chat.receiverId){
-            console.log('there is a dup user');
-            setDup(true);
-            // return ;
-          }
-      })
-      }
+      
+    }
       
     } catch (error) {
       console.log(error)
@@ -84,6 +78,27 @@ function AddUser() {
 
       // if(dup)
       //     return ;
+
+      const usersRef = doc(userChatsRef, currentUser.id);
+      const userchatsSnap = await getDoc(usersRef);
+
+      // if (userchatsSnap.exists()){
+
+        // }
+        const data = userchatsSnap.data();
+        
+        console.log(data.chats)
+        
+        const dup = data.chats.find(item => item.receiverId === user.id);
+        
+        if (dup){
+          console.log('User Already added: ', user.id);
+          setDuplicate(true);
+          return ;
+        }else{
+          setDuplicate(false);
+          console.log('New User Detected: ', user.id);
+        }
 
       
       const newChatRef = doc(chatRef)
@@ -126,14 +141,12 @@ function AddUser() {
         <input type="text" name="username" id="username" placeholder='Username' />
         <button>Search</button>
       </form>
-      {user && <div className="user">
+      {user && <div className="user" style={{opacity: duplicate ? 0.5 : 1}}>
         <div className="detail">
           <img src={user.avatar || "./avatar.png"} alt="" />
           <span>{user.username}</span>
         </div>
-        <button onClick={handleAdd} style={{
-          backgroundColor: dup ? 'red' : 'blue'
-        }}>Add User</button>
+        <button onClick={handleAdd}>Add User</button>
       </div>}
     </div>
   )

@@ -102,9 +102,9 @@ function Login() {
 				chats: [],
 			});
 
-			username = "";
-			email = "";
-			password = "";
+			// username = "";
+			// email = "";
+			// password = "";
 			setWaitRegister(false);
 			toast.success("Account Created Successfully You Can Login Now");
 
@@ -126,14 +126,14 @@ function Login() {
 			<h2>Welcome Back!</h2>
 			<form onSubmit={handleLogin}>
 				<div className="inputContainer">
-					<p>Email</p>
+					{/* <p>Email</p> */}
 					<input required type="text" name="email" placeholder="Email" />
 				</div>
 				<div className="inputContainer">
-					<p>Password</p>
+					{/* <p>Password</p> */}
 					<input required type="password" name="password" placeholder='Password' />
 				</div>
-				<button disabled={waitLogin}>{waitLogin ? "Loading..." : "Login"}</button>
+				{waitLogin ? <img className='loading-svg' src='./loading1.svg' width={50}/> : <button disabled={waitRegister}><span>Login</span></button>}
 			</form>
 		</motion.div>
 		<motion.div className="separator"
@@ -154,18 +154,19 @@ function Login() {
 				</label>
 				<input style={{display: 'none'}} type="file" name="file" id="file" onChange={handleAvatar}/>
 				<div className="inputContainer">
-					<p>Username</p>
+					{/* <p>Username</p> */}
 					<input type="text" name="username" placeholder="username" required/>
 				</div>
 				<div className="inputContainer">
-					<p>Email</p>
+					{/* <p>Email</p> */}
 					<input type="text" name="email" placeholder="Enter Your Email" required/>
 				</div>
 				<div className="inputContainer">
-					<p>Password</p>
+					{/* <p>Password</p> */}
 					<input type="password" name="password" placeholder='Enter Your Password' required/>
 				</div>
-				<button disabled={waitRegister}>{waitRegister ? "..." : "Sign Up"}</button>
+				{waitRegister ? <img className='loading-svg' src='./loading1.svg' width={50}/> : <button disabled={waitRegister}><span>Sign Up</span></button>}
+				
 			</form>
 		</motion.div>
 	</div>

@@ -45,7 +45,7 @@ export const useChatStore = create((set) => ({
       }
   },
 
-  handleBlock: () => {
-    set((state) => ({isOtherUserBlocked: !isOtherUserBlocked}))
+  changeBlock: () => {
+    set((state) => ({...state, isOtherUserBlocked: !state.isOtherUserBlocked}))
   }
 }))

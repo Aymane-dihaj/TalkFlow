@@ -99,7 +99,7 @@ function ChatList() {
             animate={{opacity: 1, translateY: 0}}
             transition={{type: 'just'}}
           style={{
-            backgroundColor: chat.isSeen ? "transparent" : "#0194E9"
+            backgroundColor: chat.isSeen? "transparent" : "#0194E9"
             // background: "linear-gradient(90deg, #0194E9, #0368D8)"
 
           }} className="item" key={chat.chatId} onClick={() => handleSelectedChat(chat)}>
