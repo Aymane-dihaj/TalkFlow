@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
 import { connectStorageEmulator } from 'firebase/storage'
 import { useImgStore } from '../../lib/imgStore'
-import { saveAs } from 'file-saver'
 
 
 
