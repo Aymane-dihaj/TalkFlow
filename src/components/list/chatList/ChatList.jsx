@@ -7,6 +7,7 @@ import { db } from '../../../lib/firebase';
 import { getDatabase, update } from 'firebase/database';
 import { useChatStore } from '../../../lib/chatStore';
 import { motion } from 'framer-motion';
+import { connectStorageEmulator } from 'firebase/storage';
 
 function ChatList() {
 
@@ -14,6 +15,14 @@ function ChatList() {
   const {currentUser} = useUserStore();
   const [chats, setChats] = useState([]);
   const {chatId, changeChat} = useChatStore();
+  const [search, setSearch] = useState('');
+
+
+
+  const filtredChats = chats.filter(chat => chat.otherUserInfos.username.toLowerCase().includes(search.toLowerCase()))
+
+
+
 
   useEffect(() => {
 
@@ -35,7 +44,7 @@ function ChatList() {
 
         
         const otherUserInfos = otherUserDocSnap.data()
-        // console.log(otherUserInfos)
+
         
         //RETURN THE CHAT OBJECT WITH THE OTHER USER INFORMATIONS INSIDE IT
         return {...item, otherUserInfos};
@@ -89,12 +98,13 @@ function ChatList() {
       <div className="search">
         <div className="search-bar">
           <img src="./search.png" alt="Search Icon" />
-          <input type="text" placeholder='Search'/>
+          <input type="text" placeholder='Search' onChange={(e) => {setSearch(e.target.value)}} />
         </div>
         <img src={!addMode ?  "./plus.png" : "./minus.png"} onClick={() => {setAddMode(!addMode)}} className='add' alt="Add Icon"/>
       </div>
-      {chats.map((chat) => (
+      {filtredChats.map((chat) => (
           <motion.div
+            layout
             initial={{opacity: 0, translateY: 200}}
             animate={{opacity: 1, translateY: 0}}
             transition={{type: 'just'}}

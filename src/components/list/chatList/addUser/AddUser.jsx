@@ -5,6 +5,7 @@ import { db } from '../../../../lib/firebase';
 import { update } from 'firebase/database';
 import { useUserStore } from '../../../../lib/userStore';
 import { connectStorageEmulator } from 'firebase/storage';
+import { motion } from 'framer-motion';
 
 function AddUser() {
   
@@ -29,17 +30,6 @@ function AddUser() {
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty){
-
-      // const chatRef = collection(db, "chats");
-      // const userChatsRef = collection(db, "userchats");
-      
-      // const currentUserChats = doc(userChatsRef, currentUser.id);
-      // const currentUserChatsData = await getDoc(currentUserChats);
-      
-      // const data = currentUserChatsData.data()
-          
-        // console.log(data)
-
       setUser(querySnapshot.docs[0].data());
       
     }
@@ -59,45 +49,22 @@ function AddUser() {
     const userChatsRef = collection(db, "userchats");
     
     try {
-      
-      // const currentUserChats = doc(userChatsRef, currentUser.id);
-      // const currentUserChatsData = await getDoc(currentUserChats);
-      
-      // const data = currentUserChatsData.data()
-      
-      // console.log(data)
 
-      // data.chats.forEach((chat) => {
-      //   if (user.id === chat.receiverId){
-      //       console.log('there is a dup user');
-      //       setDup(true);
-      //       return ;
-      //     }
-      // })
-
-
-      // if(dup)
-      //     return ;
 
       const usersRef = doc(userChatsRef, currentUser.id);
       const userchatsSnap = await getDoc(usersRef);
 
-      // if (userchatsSnap.exists()){
 
-        // }
         const data = userchatsSnap.data();
         
-        console.log(data.chats)
         
         const dup = data.chats.find(item => item.receiverId === user.id);
         
         if (dup){
-          console.log('User Already added: ', user.id);
           setDuplicate(true);
           return ;
         }else{
           setDuplicate(false);
-          console.log('New User Detected: ', user.id);
         }
 
       
@@ -136,7 +103,12 @@ function AddUser() {
   }
 
   return (
-    <div className='add-user'>
+    <motion.div className='add-user'
+
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+
+    >
       <form onSubmit={Adduser}>
         <input type="text" name="username" id="username" placeholder='Username' />
         <button>Search</button>
@@ -148,7 +120,7 @@ function AddUser() {
         </div>
         <button onClick={handleAdd}>Add User</button>
       </div>}
-    </div>
+    </motion.div>
   )
 }
 

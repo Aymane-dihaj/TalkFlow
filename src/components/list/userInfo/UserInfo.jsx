@@ -31,6 +31,7 @@ function UserInfo() {
         // exit={{ opacity: 0, scale: 0 , translateX: 50}}
         
         >
+          <button className='logout' onClick={() => {auth.signOut()}}>Logout</button>
         </motion.div>
       }
     </section>

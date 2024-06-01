@@ -8,6 +8,7 @@ import { useUserStore } from '../../lib/userStore';
 import upload from '../../lib/upload'
 import { connectStorageEmulator } from 'firebase/storage';
 import { motion } from 'framer-motion';
+import { useImgStore } from '../../lib/imgStore';
 
 function Chat() {
 
@@ -21,6 +22,7 @@ function Chat() {
     url: "",
   })
   const [imgLoading, setImgLoading] = useState(false);
+  const { images, pushImg} = useImgStore();
 
 
 
@@ -49,7 +51,6 @@ function Chat() {
   useEffect(() => {
     
     const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
-      console.log("useEffect: chat updated")
       setChat(res.data())
     })
     
@@ -62,8 +63,6 @@ function Chat() {
   
   const handleSend = async () => {
     
-    console.log("Send button clicked")
-    
     if (TextMessage == "" && !img.url)
       return;
     
@@ -75,9 +74,10 @@ function Chat() {
         if (img.url){
           setImgLoading(true);
           imgUrl = await upload(img.file);
+          pushImg(imgUrl);
           setImgLoading(false);
         }
-        
+
         
         //ADD A NEW MESSAGE IN THE CHATS DATABASE
         await updateDoc(doc(db, "chats", chatId), {
@@ -145,6 +145,7 @@ function Chat() {
             handleSend()
       }
     
+      
     
     return (
       <section className='chat'>
@@ -199,7 +200,7 @@ function Chat() {
         </div>
         <div className="input-container">
           
-          <input disabled={isCurrentUserBlocked} style={{cursor: isCurrentUserBlocked || isOtherUserBlocked ? 'not-allowed' : 'pointer'}} value={TextMessage} onKeyPress={handleKeyPress} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder={isCurrentUserBlocked || isOtherUserBlocked ? 'You Cannot Send Any Message' : 'Type a Message'}/>
+          <input disabled={isCurrentUserBlocked} style={{cursor: isCurrentUserBlocked || isOtherUserBlocked ? 'not-allowed' : 'text'}} value={TextMessage} onKeyPress={handleKeyPress} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder={isCurrentUserBlocked || isOtherUserBlocked ? 'You Cannot Send Any Message' : 'Type a Message'}/>
           <div className="emojis">
             <img src="./emoji.png" alt="" onClick={() => {setOpenEmojis(!openEmojis)}}/>
             <div className="emoji-container">
