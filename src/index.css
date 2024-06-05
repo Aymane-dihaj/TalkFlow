@@ -24,7 +24,7 @@ html{
 
 body{
   overflow: hidden;
-  background-image: url('./newbg.jpg');
+  background-image: url('./assets/newbg.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
