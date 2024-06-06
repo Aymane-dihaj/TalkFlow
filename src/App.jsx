@@ -44,6 +44,7 @@ const App = () => {
           ) : (<Login/>)
       }
       <Notification/>
+      <></>
     </motion.div>
   )
 }
