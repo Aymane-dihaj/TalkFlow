@@ -10,6 +10,8 @@
     scrollbar-width: thin; /* For Firefox */
     scrollbar-color: rgb(24, 24, 24) transparent; /* For Firefox: thumb color track color */
     scroll-behavior: smooth;
+    width: 100%;
+    /* border: 2px solid red; */
 
 }
 
@@ -75,12 +77,10 @@
     padding: 10px;
     gap: 15px;
     color: whitesmoke;
-    /* border: 2px solid red; */
+    border: 1.4px solid #dddddd35;
     margin: 10px;
     border-radius: 10px;
     overflow-x: hidden;
-    max-width: 400px;
-
     
     &:hover{
         opacity: 0.8;
@@ -106,12 +106,14 @@
     p{
         font-size: 14px;
         font-weight: normal;
-        border: 2px solid red;
+        /* border: 2px solid red; */
         box-sizing: border-box;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 100%;
+        /* width: 100%; */
+        max-width: 200px;
+
     }
     /* border: 2px solid red; */
 }

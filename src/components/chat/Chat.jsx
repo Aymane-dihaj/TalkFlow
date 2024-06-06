@@ -135,6 +135,10 @@ function Chat() {
       
     }
 
+    const goDown = () => {
+      endRef.current?.scrollIntoView({behavior: "smooth"})
+    }
+
     
       useEffect(() => {
           endRef.current?.scrollIntoView({behavior: "smooth"})
@@ -179,7 +183,7 @@ function Chat() {
             <div className="texts" >
               {message.img && <img src={message.img} alt="" />}
               <p style={{display: message.TextMessage ? 'flex' : 'none'}}>{message.TextMessage}</p>
-              <span style={{justifyContent: message.senderId === currentUser?.id ? 'end' : 'start'}}>{formatDistanceToNow(message.createdAt.toDate(), {addSuffix: false})} ago</span>
+              <span style={{justifyContent: message.senderId === currentUser?.id ? 'end' : 'start'}}>{formatDistanceToNow(message.createdAt.toDate(), {addSuffix: true})}</span>
             </div>
           </motion.div>
         ))}
@@ -193,6 +197,9 @@ function Chat() {
         <div ref={endRef}></div>
       </div>
       <div className="bottom">
+        <div className="goDown" onClick={goDown}>
+          <img src="./arrowDown.png" alt=""/>
+        </div>
         <div className="icons">
           <label htmlFor="file">
             <img src="./img.png" alt="" />
@@ -201,11 +208,11 @@ function Chat() {
         </div>
         <div className="input-container">
           
-          <input disabled={isCurrentUserBlocked} style={{cursor: isCurrentUserBlocked || isOtherUserBlocked ? 'not-allowed' : 'text'}} value={TextMessage} onKeyPress={handleKeyPress} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder={isCurrentUserBlocked || isOtherUserBlocked ? 'You Cannot Send Any Message' : 'Type a Message'}/>
+          <input disabled={isCurrentUserBlocked || isOtherUserBlocked} style={{cursor: isCurrentUserBlocked || isOtherUserBlocked ? 'not-allowed' : 'text'}} value={TextMessage} onKeyPress={handleKeyPress} type="text" onChange={(e) => {setTextMessage(e.target.value)}} placeholder={isCurrentUserBlocked || isOtherUserBlocked ? 'You Cannot Send Any Message' : 'Type a Message'}/>
           <div className="emojis">
             <img src="./emoji.png" alt="" onClick={() => {setOpenEmojis(!openEmojis)}}/>
             <div className="emoji-container">
-              <EmojiPicker open={openEmojis} onEmojiClick={handelEmoji} theme='dark' searchPlaceHolder='' width={300} height={420}/>
+              <EmojiPicker open={openEmojis} onEmojiClick={handelEmoji} theme='dark' searchPlaceHolder='' emojiStyle='apple' width={300} height={420}/>
             </div>
           </div>
         </div>

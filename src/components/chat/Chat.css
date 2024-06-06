@@ -64,8 +64,10 @@
         scrollbar-width: thin; /* For Firefox */
         scrollbar-color: rgb(24, 24, 24) transparent; /* For Firefox: thumb color track color */
         scroll-behavior: smooth;
-        gap: 10px;
+        gap: 20px;
         width: 100%;
+        margin-bottom: 40px;
+        /* padding-bottom: 50px; */
         
         .message{
             width: fit-content;
@@ -142,6 +144,8 @@
     
     
     .bottom{
+        position: relative;
+
         display: flex;
         padding: 20px;
         align-items: center;
@@ -161,10 +165,25 @@
         }
     }
 
+
+    .goDown{
+        position: absolute;
+        top: -50px;
+        right: 20px;
+        border: 2px solid white;
+        border-radius: 50%;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+
     .input-container{
 
         
-        border: 2px solid red;
+        border: 2px solid red;[]
         flex: 1;
         display: flex;
         align-items: center;
