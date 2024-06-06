@@ -76,7 +76,6 @@
             flex-wrap: wrap;
             font-size: 15px;
             color: whitesmoke;
-            text-wrap: wrap;
 
             &.own{
                 align-self: flex-end;
@@ -90,7 +89,6 @@
                     max-width: 100%;
                     background: #E96C01;
                     background: linear-gradient(90deg, #e96d01c5, #c3330bd2);
-                    word-wrap: break-word;
                     }
                 }
                                             
@@ -122,10 +120,20 @@
                     border-radius: 8px;
                     padding: 10px;
                     background-color: #454545;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    /* border: 2px solid red; */
                 }
 
                 span{
-                    font-size: 12px;
+                    font-size: 11px;
+                    display: flex;
+                    text-align: end;
+                    width: 100%;
+                    align-items: flex-end;
+                    /* border: 1px solid red; */
+                    justify-content: end;
                 }
             }
         

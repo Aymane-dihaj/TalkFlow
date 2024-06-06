@@ -9,6 +9,7 @@ import upload from '../../lib/upload'
 import { connectStorageEmulator } from 'firebase/storage';
 import { motion } from 'framer-motion';
 import { useImgStore } from '../../lib/imgStore';
+import { format, formatDistanceToNow } from 'date-fns';
 
 function Chat() {
 
@@ -172,13 +173,13 @@ function Chat() {
           animate={{translateX: 0}}
           
 
-            key={message?.createAt}
+            key={message?.createdAt}
 
           >
             <div className="texts" >
               {message.img && <img src={message.img} alt="" />}
               <p style={{display: message.TextMessage ? 'flex' : 'none'}}>{message.TextMessage}</p>
-              {/* <span>{message.createdAt}</span> */}
+              <span style={{justifyContent: message.senderId === currentUser?.id ? 'end' : 'start'}}>{formatDistanceToNow(message.createdAt.toDate(), {addSuffix: false})} ago</span>
             </div>
           </motion.div>
         ))}
