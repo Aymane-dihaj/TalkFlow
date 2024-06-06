@@ -9,6 +9,7 @@ import { auth } from './lib/firebase';
 import { useUserStore } from './lib/userStore';
 import { useChatStore } from './lib/chatStore';
 import { motion } from 'framer-motion';
+import Footer from './components/footer/Footer';
 
 
 const App = () => {
@@ -33,19 +34,21 @@ const App = () => {
 
 
   return (
-    <motion.div className='app' initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4}}>
-      {
-        currentUser ? (
-          <>
-            <List/>
-            {chatId && <Chat/>}
-            {chatId && <Details/>}
-          </>
-          ) : (<Login/>)
-      }
-      <Notification/>
-      <></>
-    </motion.div>
+    <>
+     <motion.div className='app' initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4}}>
+        {
+          currentUser ? (
+            <>
+              <List/>
+              {chatId && <Chat/>}
+              {chatId && <Details/>}
+            </>
+            ) : (<Login/>)
+          }
+        <Notification/>
+        </motion.div>
+        <Footer/>
+    </>
   )
 }
 
